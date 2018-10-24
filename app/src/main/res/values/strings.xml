@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">To Do List</string>
+    <string name="nome_item">Item</string>
+    <string name="done">Done</string>
+    <string name="edt_add_something">Add something to do</string>
+    <string name="save">Save</string>
+	<string name="adicionar">Adicionar</string>
+</resources>
