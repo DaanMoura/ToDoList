@@ -16,7 +16,7 @@ class TodoListActivity : AppCompatActivity() {
     private val ITEM = "Item"
     var index: Int = -1
 
-    var todoList = ArrayList<String>()
+    var todoList = ArrayList<Item>()
     val adapter = ItemAdapter(todoList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,10 +54,10 @@ class TodoListActivity : AppCompatActivity() {
             val item: String? = data?.getStringExtra(NOVO_ITEM)
             if(item!=null) {
                 if(index >= 0) {
-                    todoList.set(index, item)
+                    todoList[index].texto = item
                     index = -1
                 } else {
-                    todoList.add(item)
+                    todoList.add(Item(item))
                 }
             }
         }

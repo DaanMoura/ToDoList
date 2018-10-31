@@ -9,13 +9,14 @@ import kotlinx.android.synthetic.main.activity_adiciona_item.*
 class AdicionaItemActivity : AppCompatActivity() {
     private val NOVO_ITEM = "NovoItem"
     private val ITEM = "Item"
+    var item: Item? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adiciona_item)
 
-        val item = intent.getStringExtra(ITEM)
-        edtItem.setText(item)
+        val item = intent.getSerializableExtra(ITEM) as Item?
+        edtItem.setText(item?.texto)
 
         btnSave.setOnClickListener {
             val salva = Intent(this, TodoListActivity::class.java)

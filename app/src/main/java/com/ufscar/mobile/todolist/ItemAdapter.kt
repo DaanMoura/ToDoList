@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.android.synthetic.main.todo_item.view.*
 
-class ItemAdapter(val todoList: List<String>) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+class ItemAdapter(val todoList: List<Item>) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
-    var clique: ((item:String, index: Int) -> Unit)? = null
+    var clique: ((item:Item, index: Int) -> Unit)? = null
     var cliqueBotao: ((index: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,11 +23,11 @@ class ItemAdapter(val todoList: List<String>) : RecyclerView.Adapter<ItemAdapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item: String = todoList[position]
+        val item: Item = todoList[position]
         holder.bindView(item, clique, cliqueBotao)
     }
 
-    fun configuraClique(clique: ((item:String, index: Int) -> Unit)) {
+    fun configuraClique(clique: ((item:Item, index: Int) -> Unit)) {
         this.clique = clique
     }
 
@@ -36,10 +36,10 @@ class ItemAdapter(val todoList: List<String>) : RecyclerView.Adapter<ItemAdapter
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
-        fun bindView(item: String,
-                     clique: ((item:String, index: Int) -> Unit)?,
+        fun bindView(item: Item,
+                     clique: ((item:Item, index: Int) -> Unit)?,
                      cliqueBotao: ((index: Int) -> Unit)?) {
-            itemView.txtItem.text = item
+            itemView.txtItem.text = item.texto
 
             if(clique != null) {
                 itemView.setOnClickListener {
