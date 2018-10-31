@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.todo_item.view.*
 
 class ItemAdapter(val todoList: List<Item>) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
-    var clique: ((item:Item, index: Int) -> Unit)? = null
+    var clique: ((index: Int) -> Unit)? = null
     var cliqueBotao: ((index: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,10 +24,10 @@ class ItemAdapter(val todoList: List<Item>) : RecyclerView.Adapter<ItemAdapter.V
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item: Item = todoList[position]
-        holder.bindView(item, clique, cliqueBotao)
+        holder.bindView(item ,clique, cliqueBotao)
     }
 
-    fun configuraClique(clique: ((item:Item, index: Int) -> Unit)) {
+    fun configuraClique(clique: ((index: Int) -> Unit)) {
         this.clique = clique
     }
 
@@ -37,13 +37,14 @@ class ItemAdapter(val todoList: List<Item>) : RecyclerView.Adapter<ItemAdapter.V
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
         fun bindView(item: Item,
-                     clique: ((item:Item, index: Int) -> Unit)?,
+                     clique: ((index: Int) -> Unit)?,
                      cliqueBotao: ((index: Int) -> Unit)?) {
             itemView.txtItem.text = item.texto
+            itemView.txtDate.text = item.createdAt
 
             if(clique != null) {
                 itemView.setOnClickListener {
-                    clique.invoke(item, adapterPosition)
+                    clique.invoke(adapterPosition)
                 }
             }
 
