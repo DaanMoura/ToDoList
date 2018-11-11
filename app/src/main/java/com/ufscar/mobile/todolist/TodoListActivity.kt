@@ -14,7 +14,7 @@ class TodoListActivity : AppCompatActivity(), TodoListContract.View {
     private val ADICIONA_ITEM = 1
     private val NOVO_ITEM = "NovoItem"
     private val ITEM = "Item"
-    var index: Int = -1 
+    var index: Int = -1
 
     var todoList = ArrayList<Item>()
     val presenter: TodoListContract.Presenter = TodoListPresenter(this)

@@ -19,10 +19,11 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 
-class AdicionaItemActivity : AppCompatActivity() {
-    private val NOVO_ITEM = "NovoItem"
+class AdicionaItemActivity : AppCompatActivity(), AdicionaItemContract.View {
     private val ITEM = "Item"
     var item: Item? = null
+
+    val presenter: AdicionaItemContract.Presenter = AdicionaItemPresenter(this)
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,36 +35,25 @@ class AdicionaItemActivity : AppCompatActivity() {
 
         btnSave.setOnClickListener {
 
-            val current = LocalDateTime.now().toString()
-//            Toast.makeText(this, "$current", Toast.LENGTH_SHORT).show()
-//            val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-//            val formatted = current.format(formatter)
+            val current = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+            val formatted = current.format(formatter)
 
-
-//            val salva = Intent(this, TodoListActivity::class.java)
             if(item == null) {
-                item = Item(edtItem.text.toString(), current)
+                item = Item(edtItem.text.toString(), formatted)
             } else {
                 item?.texto = edtItem.text.toString()
-                item?.createdAt = current
+                item?.createdAt = formatted
             }
-//            salva.putExtra(NOVO_ITEM, item)
-//            setResult(Activity.RESULT_OK, salva)
 
-            val itemDao: ItemDAO = AppDatabase.getInstance(this).itemDao()
-
-            Toast.makeText(this, "$current", Toast.LENGTH_SHORT).show()
-            doAsync {
-                try {
-                    itemDao.insert(item!!)
-                }catch (err: Error){
-                    val x = err
-                }
-                uiThread {
-                    finish()
-                }
+            item?.let {item ->
+                presenter.onSalvaItem(this, item)
             }
         }
 
+    }
+
+    override fun salvoComSucesso() {
+        finish()
     }
 }
