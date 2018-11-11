@@ -1,10 +1,13 @@
-package com.ufscar.mobile.todolist
+package com.ufscar.mobile.todolist.cenarios.todo_list
 
 import android.content.Context
+import com.ufscar.mobile.todolist.database.AppDatabase
+import com.ufscar.mobile.todolist.entidades.Item
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class TodoListPresenter(val view: TodoListContract.View): TodoListContract.Presenter {
+class TodoListPresenter(val view: TodoListContract.View):
+    TodoListContract.Presenter {
 
     override fun onAtualizaLista(context: Context) {
         val itemDao = AppDatabase.getInstance(context).itemDao()

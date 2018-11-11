@@ -1,6 +1,7 @@
-package com.ufscar.mobile.todolist
+package com.ufscar.mobile.todolist.cenarios.todo_list
 
 import android.content.Context
+import com.ufscar.mobile.todolist.entidades.Item
 
 interface TodoListContract {
 

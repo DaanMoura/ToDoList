@@ -1,14 +1,14 @@
-package com.ufscar.mobile.todolist
+package com.ufscar.mobile.todolist.cenarios.todo_list
 
 import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import com.ufscar.mobile.todolist.entidades.Item
+import com.ufscar.mobile.todolist.R
+import com.ufscar.mobile.todolist.cenarios.adiciona_item.AdicionaItemActivity
 import kotlinx.android.synthetic.main.activity_todo_list.*
-import org.jetbrains.anko.activityUiThreadWithContext
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class TodoListActivity : AppCompatActivity(), TodoListContract.View {
     private val ADICIONA_ITEM = 1
@@ -17,7 +17,8 @@ class TodoListActivity : AppCompatActivity(), TodoListContract.View {
     var index: Int = -1
 
     var todoList = ArrayList<Item>()
-    val presenter: TodoListContract.Presenter = TodoListPresenter(this)
+    val presenter: TodoListContract.Presenter =
+        TodoListPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

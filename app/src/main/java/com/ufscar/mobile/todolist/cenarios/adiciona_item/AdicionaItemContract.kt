@@ -1,6 +1,7 @@
-package com.ufscar.mobile.todolist
+package com.ufscar.mobile.todolist.cenarios.adiciona_item
 
 import android.content.Context
+import com.ufscar.mobile.todolist.entidades.Item
 
 interface AdicionaItemContract {
     interface View {

@@ -1,29 +1,22 @@
-package com.ufscar.mobile.todolist
+package com.ufscar.mobile.todolist.cenarios.adiciona_item
 
-import android.app.Activity
-import android.content.Intent
-import android.icu.text.DateTimePatternGenerator
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
-import android.widget.Toast
+import com.ufscar.mobile.todolist.entidades.Item
+import com.ufscar.mobile.todolist.R
 import kotlinx.android.synthetic.main.activity_adiciona_item.*
-import kotlinx.android.synthetic.main.todo_item.*
-import org.jetbrains.anko.activityUiThreadWithContext
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import java.lang.Error
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.*
 
 class AdicionaItemActivity : AppCompatActivity(), AdicionaItemContract.View {
     private val ITEM = "Item"
     var item: Item? = null
 
-    val presenter: AdicionaItemContract.Presenter = AdicionaItemPresenter(this)
+    val presenter: AdicionaItemContract.Presenter =
+        AdicionaItemPresenter(this)
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {

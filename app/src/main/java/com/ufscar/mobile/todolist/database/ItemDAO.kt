@@ -1,6 +1,7 @@
-package com.ufscar.mobile.todolist
+package com.ufscar.mobile.todolist.database
 
 import android.arch.persistence.room.*
+import com.ufscar.mobile.todolist.entidades.Item
 
 @Dao
 interface ItemDAO {
