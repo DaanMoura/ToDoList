@@ -5,21 +5,19 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.activity_adiciona_item.*
 import kotlinx.android.synthetic.main.activity_todo_list.*
-import kotlinx.android.synthetic.main.todo_item.*
 import org.jetbrains.anko.activityUiThreadWithContext
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class TodoListActivity : AppCompatActivity() {
+class TodoListActivity : AppCompatActivity(), TodoListContract.View {
     private val ADICIONA_ITEM = 1
     private val NOVO_ITEM = "NovoItem"
     private val ITEM = "Item"
-    var index: Int = -1
+    var index: Int = -1 
 
     var todoList = ArrayList<Item>()
+    val presenter: TodoListContract.Presenter = TodoListPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,36 +30,26 @@ class TodoListActivity : AppCompatActivity() {
 
     }
 
-    private fun carregaLista() {
+    override fun exibeLista(list: ArrayList<Item>) {
 
-        val itemDao = AppDatabase.getInstance(this).itemDao()
+        todoList = list
 
-        doAsync {
-            todoList = itemDao.getAll() as ArrayList<Item>
+        val adapter = ItemAdapter(todoList)
 
-            activityUiThreadWithContext {
-                val adapter = ItemAdapter(todoList)
-
-                adapter.configuraClique {index ->
-                    val editaItem = Intent(this, AdicionaItemActivity::class.java)
-                    editaItem.putExtra(ITEM, todoList.get(index))
-                    startActivityForResult(editaItem, ADICIONA_ITEM)
-                }
-
-                adapter.configuraCliqueBotao { index ->
-                    doAsync {
-                        itemDao.delete(todoList.get(index))
-                        uiThread {
-                            carregaLista()
-                        }
-                    }
-                }
-                val layoutManager = LinearLayoutManager(this)
-
-                rvItem.adapter = adapter
-                rvItem.layoutManager = layoutManager
-            }
+        adapter.configuraClique {index ->
+            val editaItem = Intent(this, AdicionaItemActivity::class.java)
+            editaItem.putExtra(ITEM, todoList.get(index))
+            startActivityForResult(editaItem, ADICIONA_ITEM)
         }
+
+        adapter.configuraCliqueBotao { index ->
+            presenter.onDeletaItem(this, todoList.get(index))
+        }
+        val layoutManager = LinearLayoutManager(this)
+
+        rvItem.adapter = adapter
+        rvItem.layoutManager = layoutManager
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -82,6 +70,6 @@ class TodoListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        carregaLista()
+        presenter.onAtualizaLista(this)
     }
 }
