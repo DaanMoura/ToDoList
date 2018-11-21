@@ -39,8 +39,8 @@ class ItemAdapter(val todoList: List<Item>) : RecyclerView.Adapter<ItemAdapter.V
         fun bindView(item: Item,
                      clique: ((index: Int) -> Unit)?,
                      cliqueBotao: ((index: Int) -> Unit)?) {
-            itemView.txtItem.text = item.texto
-            itemView.txtDate.text = item.createdAt
+            itemView.txtItem.text = item.todo
+            itemView.txtDate.text = item.date
 
             if(clique != null) {
                 itemView.setOnClickListener {

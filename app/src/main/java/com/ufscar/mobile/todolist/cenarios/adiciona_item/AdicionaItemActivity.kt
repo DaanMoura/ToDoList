@@ -24,7 +24,7 @@ class AdicionaItemActivity : AppCompatActivity(), AdicionaItemContract.View {
         setContentView(R.layout.activity_adiciona_item)
 
         item = intent.getSerializableExtra(ITEM) as Item?
-        edtItem.setText(item?.texto)
+        edtItem.setText(item?.todo)
 
         btnSave.setOnClickListener {
 
@@ -33,10 +33,10 @@ class AdicionaItemActivity : AppCompatActivity(), AdicionaItemContract.View {
             val formatted = current.format(formatter)
 
             if(item == null) {
-                item = Item(edtItem.text.toString(), formatted)
+                item = Item(0,edtItem.text.toString(), formatted)
             } else {
-                item?.texto = edtItem.text.toString()
-                item?.createdAt = formatted
+                item?.todo = edtItem.text.toString()
+                item?.date = formatted
             }
 
             item?.let {item ->

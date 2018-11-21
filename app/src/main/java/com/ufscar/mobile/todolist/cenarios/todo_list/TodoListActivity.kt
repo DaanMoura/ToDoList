@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import com.ufscar.mobile.todolist.entidades.Item
 import com.ufscar.mobile.todolist.R
 import com.ufscar.mobile.todolist.cenarios.adiciona_item.AdicionaItemActivity
@@ -16,9 +17,10 @@ class TodoListActivity : AppCompatActivity(), TodoListContract.View {
     private val ITEM = "Item"
     var index: Int = -1
 
-    var todoList = ArrayList<Item>()
-    val presenter: TodoListContract.Presenter =
-        TodoListPresenter(this)
+//    var todoList = List<Item>
+//    val presenter: TodoListContract.Presenter =
+//        TodoListPresenter(this)
+    val presenter: TodoListContract.ApiPresenter = TodoListApiPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,46 +33,52 @@ class TodoListActivity : AppCompatActivity(), TodoListContract.View {
 
     }
 
-    override fun exibeLista(list: ArrayList<Item>) {
+    override fun exibeLista(list: List<Item>?) {
 
-        todoList = list
+//        todoList = list
+        if(list!=null) {
+            val adapter = ItemAdapter(list)
 
-        val adapter = ItemAdapter(todoList)
-
-        adapter.configuraClique {index ->
-            val editaItem = Intent(this, AdicionaItemActivity::class.java)
-            editaItem.putExtra(ITEM, todoList.get(index))
-            startActivityForResult(editaItem, ADICIONA_ITEM)
-        }
-
-        adapter.configuraCliqueBotao { index ->
-            presenter.onDeletaItem(this, todoList.get(index))
-        }
-        val layoutManager = LinearLayoutManager(this)
-
-        rvItem.adapter = adapter
-        rvItem.layoutManager = layoutManager
-
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == ADICIONA_ITEM && resultCode == Activity.RESULT_OK) {
-            val item: Item? = data?.getSerializableExtra(NOVO_ITEM) as Item
-            if(item!=null) {
-                if(index >= 0) {
-                    todoList.set(index, item)
-                    index = -1
-                } else {
-                    todoList.add(item)
-                }
+            adapter.configuraClique {index ->
+                //            val editaItem = Intent(this, AdicionaItemActivity::class.java)
+//            editaItem.putExtra(ITEM, todoList.get(index))
+//            startActivityForResult(editaItem, ADICIONA_ITEM)
             }
+
+            adapter.configuraCliqueBotao { index ->
+                //            presenter.onDeletaItem(this, todoList.get(index))
+            }
+            val layoutManager = LinearLayoutManager(this)
+
+            rvItem.adapter = adapter
+            rvItem.layoutManager = layoutManager
+        } else {
+            showMessage("Por algum motivo, list = null")
         }
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if(requestCode == ADICIONA_ITEM && resultCode == Activity.RESULT_OK) {
+//            val item: Item? = data?.getSerializableExtra(NOVO_ITEM) as Item
+//            if(item!=null) {
+//                if(index >= 0) {
+//                    todoList.set(index, item)
+//                    index = -1
+//                } else {
+//                    todoList.add(item)
+//                }
+//            }
+//        }
+//    }
 
     override fun onResume() {
         super.onResume()
         presenter.onAtualizaLista(this)
+    }
+
+    override fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
