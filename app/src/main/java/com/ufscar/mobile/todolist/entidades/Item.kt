@@ -1,4 +1,4 @@
-package com.ufscar.mobile.todolist
+package com.ufscar.mobile.todolist.entidades
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
