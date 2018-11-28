@@ -24,7 +24,6 @@ import java.util.ArrayList
 
 
 class AdicionaItemFragment : Fragment(),  AdicionaItemContract.View {
-    private val ITEM = "Item"
     private val ARG_ITEM = "arg_item"
 
     companion object {

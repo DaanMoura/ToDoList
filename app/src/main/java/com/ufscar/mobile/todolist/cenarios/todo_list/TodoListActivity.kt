@@ -9,12 +9,8 @@ import com.ufscar.mobile.todolist.R
 import com.ufscar.mobile.todolist.cenarios.adiciona_item.AdicionaItemFragment
 
 class TodoListActivity : AppCompatActivity(), TodoListContract.View, TodoListFragment.onFragmentInteractionListener {
-    private val ADICIONA_ITEM = 1
-    private val NOVO_ITEM = "NovoItem"
-    private val ITEM = "Item"
     var index: Int = -1
 
-    var todoList = ArrayList<Item>()
     val presenter: TodoListContract.Presenter =
         TodoListPresenter(this)
 
@@ -51,22 +47,6 @@ class TodoListActivity : AppCompatActivity(), TodoListContract.View, TodoListFra
             .replace(R.id.fmMaster, fragmentAddItem)
             .addToBackStack(null)
             .commit()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == ADICIONA_ITEM && resultCode == Activity.RESULT_OK) {
-            val item: Item? = data?.getSerializableExtra(NOVO_ITEM) as Item
-            if(item!=null) {
-                if(index >= 0) {
-                    todoList.set(index, item)
-                    index = -1
-                } else {
-                    todoList.add(item)
-                }
-            }
-        }
     }
 
     override fun onResume() {
