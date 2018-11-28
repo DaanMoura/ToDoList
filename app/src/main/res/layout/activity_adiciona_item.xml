@@ -10,21 +10,7 @@
 	android:paddingStart="24dp"
 	android:orientation="vertical">
 
-	<EditText
-		android:id="@+id/edtItem"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="@string/edt_add_something"
-		android:layout_marginTop="24dp"/>
 
-	<Button
-		android:id="@+id/btnSave"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="24dp"
-		android:textColor="@color/white"
-		android:text="@string/save"
-		android:background="@drawable/rounded_button"/>
 
 
 </LinearLayout>
